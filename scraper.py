@@ -4,18 +4,32 @@ import json
 API_URL = "https://www.calcareers.ca.gov/CalHrPublic/Search/JobSearchResults"
 
 def fetch_jobs():
-    params = {
-        "page": 1,
-        "rpp": 50,
-        "sortField": "postingDate",
-        "sortOrder": "descending"
-    }
     headers = {
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0"
     }
 
-    response = requests.get(API_URL, params=params, headers=headers)
+    # API expects POST with criteria
+    payload = {
+        "page": 1,
+        "rpp": 50,
+        "sortField": "postingDate",
+        "sortOrder": "descending",
+        "searchTerm": "",
+        "jobType": "all",
+        "location": "",
+        "department": "",
+        "salaryRange": "",
+        "classCode": "",
+        "workingTitle": "",
+        "jobControl": "",
+        "finalFilingDate": "",
+        "startDate": "",
+        "endDate": ""
+    }
+
+    response = requests.post(API_URL, headers=headers, json=payload)
+    response.raise_for_status()  # Raise error if response isn't 200
     data = response.json()
 
     jobs = []
