@@ -30,7 +30,14 @@ def fetch_jobs():
 
     response = requests.post(API_URL, headers=headers, json=payload)
     response.raise_for_status()  # Raise error if response isn't 200
-    data = response.json()
+    print("Status code:", response.status_code)
+    print("Content preview:", response.text[:500])  # Print first 500 chars
+
+    try:
+        data = response.json()
+    except Exception as e:
+        print("Failed to decode JSON:", e)
+        return
 
     jobs = []
     for job in data.get("Results", []):
