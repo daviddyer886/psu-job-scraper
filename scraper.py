@@ -5,33 +5,27 @@ API_URL = "https://www.calcareers.ca.gov/CalHrPublic/Search/JobSearchResults"
 
 def fetch_jobs():
     headers = {
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Origin": "https://www.calcareers.ca.gov",
+        "Referer": "https://www.calcareers.ca.gov/",
+        "Connection": "keep-alive"
     }
 
-    # API expects POST with criteria
     payload = {
         "page": 1,
         "rpp": 50,
         "sortField": "postingDate",
         "sortOrder": "descending",
         "searchTerm": "",
-        "jobType": "all",
-        "location": "",
-        "department": "",
-        "salaryRange": "",
-        "classCode": "",
-        "workingTitle": "",
-        "jobControl": "",
-        "finalFilingDate": "",
-        "startDate": "",
-        "endDate": ""
+        "jobType": "all"
     }
 
     response = requests.post(API_URL, headers=headers, json=payload)
-    response.raise_for_status()  # Raise error if response isn't 200
     print("Status code:", response.status_code)
-    print("Content preview:", response.text[:500])  # Print first 500 chars
+    print("Content preview:", response.text[:500])
 
     try:
         data = response.json()
